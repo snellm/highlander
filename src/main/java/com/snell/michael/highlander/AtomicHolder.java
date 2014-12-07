@@ -3,6 +3,7 @@ package com.snell.michael.highlander;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 class AtomicHolder<T> {
@@ -28,9 +29,9 @@ class AtomicHolder<T> {
         }
     }
 
-    public T getOr(Supplier<T> supplier) {
+    public <R> R getOr(Function<T, R> function, Supplier<R> supplier) {
         if (held.get()) {
-            return reference.get();
+            return function.apply(reference.get());
         } else {
             return supplier.get();
         }

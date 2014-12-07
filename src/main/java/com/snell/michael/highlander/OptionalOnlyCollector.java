@@ -1,14 +1,14 @@
 package com.snell.michael.highlander;
 
 import java.util.EnumSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.*;
 import java.util.stream.Collector;
 
 import static com.snell.michael.highlander.Messages.EXPECTED_ONE_ELEMENT_BUT_FOUND_MULTIPLE;
-import static com.snell.michael.highlander.Messages.EXPECTED_ONE_ELEMENT_BUT_FOUND_NONE;
 
-class OnlyCollector<T> implements Collector<T, AtomicHolder<T>, T> {
+class OptionalOnlyCollector<T> implements Collector<T, AtomicHolder<T>, Optional<T>> {
     @Override
     public Supplier<AtomicHolder<T>> supplier () {
         return new Supplier<AtomicHolder<T>>() {
@@ -35,19 +35,19 @@ class OnlyCollector<T> implements Collector<T, AtomicHolder<T>, T> {
     }
 
     @Override
-    public Function<AtomicHolder<T>, T> finisher() {
-        return new Function<AtomicHolder<T>, T>() {
+    public Function<AtomicHolder<T>, Optional<T>> finisher() {
+        return new Function<AtomicHolder<T>, Optional<T>>() {
             @Override
-            public T apply(AtomicHolder<T> holder) {
-                return holder.getOr(new Function<T, T>() {
+            public Optional<T> apply(AtomicHolder<T> holder) {
+                return holder.getOr(new Function<T, Optional<T>>() {
                     @Override
-                    public T apply(T t) {
-                        return t;
+                    public Optional<T> apply(T t) {
+                        return Optional.of(t);
                     }
-                }, new Supplier<T>() {
+                }, new Supplier<Optional<T>>() {
                     @Override
-                    public T get() {
-                        throw new RuntimeException(EXPECTED_ONE_ELEMENT_BUT_FOUND_NONE);
+                    public Optional<T> get() {
+                        return Optional.empty();
                     }
                 });
             }
