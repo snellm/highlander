@@ -29,6 +29,11 @@ public class HighlanderStreamTest {
         only(TWO.stream());
     }
 
+    @Test(expected = RuntimeException.class)
+    public void streamDuplicates() {
+        only(asList("ONE", "ONE").stream());
+    }
+
     @Test
     public void streamFilter() {
         assertEquals("ONE", TWO.stream()

@@ -1,10 +1,7 @@
 package com.snell.michael.highlander;
 
 import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
@@ -69,44 +66,44 @@ public class Highlander {
         return (T) stream.collect(only());
     }
 
-    public static <T> Collector<T, Holder<T>, T> only() {
-        return new Collector<T, Holder<T>, T> () {
+    public static <T> Collector<T, ?, T> only() {
+        return new Collector<T, AtomicHolder<T>, T> () {
             @Override
-            public Supplier<Holder<T>> supplier () {
-                return new Supplier<Holder<T>>() {
+            public Supplier<AtomicHolder<T>> supplier () {
+                return new Supplier<AtomicHolder<T>>() {
                     @Override
-                    public Holder<T> get() {
-                        return new Holder<>();
+                    public AtomicHolder<T> get() {
+                        return new AtomicHolder<>();
                     }
                 };
             }
 
             @Override
-            public BinaryOperator<Holder<T>> combiner() {
-                return new BinaryOperator<Holder<T>>() {
+            public BinaryOperator<AtomicHolder<T>> combiner() {
+                return new BinaryOperator<AtomicHolder<T>>() {
                     @Override
-                    public Holder<T> apply(Holder<T> holder1, Holder<T> holder2) {
-                        if (!holder2.isHeld()) {
-                            return holder1;
-                        } else if (!holder1.isHeld()) {
-                            return holder2;
-                        } else {
-                            throw new RuntimeException(EXPECTED_ONE_ELEMENT_BUT_FOUND_MULTIPLE);
-                        }
+                    public AtomicHolder<T> apply(AtomicHolder<T> holder1, AtomicHolder<T> holder2) {
+                        return holder1.mergeOr(holder2, new Supplier<AtomicHolder<T>>() {
+                            @Override
+                            public AtomicHolder<T> get() {
+                                throw new RuntimeException(EXPECTED_ONE_ELEMENT_BUT_FOUND_MULTIPLE);
+                            }
+                        });
                     }
                 };
             }
 
             @Override
-            public Function<Holder<T>, T> finisher() {
-                return new Function<Holder<T>, T>() {
+            public Function<AtomicHolder<T>, T> finisher() {
+                return new Function<AtomicHolder<T>, T>() {
                     @Override
-                    public T apply(Holder<T> holder) {
-                        if (holder.isHeld()) {
-                            return holder.get();
-                        } else {
-                            throw new RuntimeException(EXPECTED_ONE_ELEMENT_BUT_FOUND_NONE);
-                        }
+                    public T apply(AtomicHolder<T> holder) {
+                        return holder.getOr(new Supplier<T>() {
+                            @Override
+                            public T get() {
+                                throw new RuntimeException(EXPECTED_ONE_ELEMENT_BUT_FOUND_NONE);
+                            }
+                        });
                     }
                 };
             }
@@ -117,13 +114,16 @@ public class Highlander {
             }
 
             @Override
-            public BiConsumer<Holder<T>, T> accumulator() {
-                return new BiConsumer<Holder<T>, T>() {
+            public BiConsumer<AtomicHolder<T>, T> accumulator() {
+                return new BiConsumer<AtomicHolder<T>, T>() {
                     @Override
-                    public void accept(Holder<T> holder, T t) {
-                        if (!holder.set(t)) {
-                            throw new RuntimeException(EXPECTED_ONE_ELEMENT_BUT_FOUND_MULTIPLE);
-                        }
+                    public void accept(AtomicHolder<T> holder, T t) {
+                        holder.setOr(t, new Consumer<T>() {
+                            @Override
+                            public void accept(T t) {
+                                throw new RuntimeException(EXPECTED_ONE_ELEMENT_BUT_FOUND_MULTIPLE);
+                            }
+                        });
                     }
                 };
             }
