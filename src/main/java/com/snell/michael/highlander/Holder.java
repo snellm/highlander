@@ -1,25 +1,27 @@
 package com.snell.michael.highlander;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 class Holder<T> {
-    private boolean held;
+    private AtomicBoolean held;
     private T t;
 
     public Holder() {
-        held = false;
+        held = new AtomicBoolean(false);
     }
 
     public boolean set(T t) {
-        if (!held) {
-            held = true;
+        boolean notAlreadyHeld = held.compareAndSet(false, true);
+        if (notAlreadyHeld) {
             this.t = t;
             return true;
         } else {
-            return false;
+            return t == this.t;
         }
     }
 
     public T get() {
-        if (held) {
+        if (held.get()) {
             return t;
         } else {
             throw new RuntimeException("No value held");
@@ -27,6 +29,6 @@ class Holder<T> {
     }
 
     public boolean isHeld() {
-        return held;
+        return held.get();
     }
 }

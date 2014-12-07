@@ -111,10 +111,9 @@ public class Highlander {
                 };
             }
 
-            // TODO Set concurrent characteristic?
             @Override
             public Set<Characteristics> characteristics() {
-                return EnumSet.of(Characteristics.UNORDERED);
+                return EnumSet.of(Characteristics.CONCURRENT, Characteristics.UNORDERED);
             }
 
             @Override
