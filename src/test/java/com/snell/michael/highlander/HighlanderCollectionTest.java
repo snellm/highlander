@@ -9,9 +9,15 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
 public class HighlanderCollectionTest {
+    private static final Collection<String> NONE = asList();
     private static final Collection<String> ONE = asList("ONE");
-    private static final Collection<String> ONE_TWO = asList("ONE", "TWO");
+    private static final Collection<String> TWO = asList("ONE", "TWO");
 
+    @Test(expected = RuntimeException.class)
+    public void collectionNone() {
+        only(NONE);
+    }
+    
     @Test
     public void collectionOne() {
         assertEquals("ONE", only(ONE));
@@ -19,6 +25,6 @@ public class HighlanderCollectionTest {
 
     @Test(expected = RuntimeException.class)
     public void collectionTwo() {
-        only(ONE_TWO);
+        only(TWO);
     }
 }

@@ -10,8 +10,14 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
 public class HighlanderStreamTest {
+    private static final Collection<String> NONE = asList();
     private static final Collection<String> ONE = asList("ONE");
-    private static final Collection<String> ONE_TWO = asList("ONE", "TWO");
+    private static final Collection<String> TWO = asList("ONE", "TWO");
+
+    @Test(expected = RuntimeException.class)
+    public void streamNone() {
+        only(NONE.stream());
+    }
 
     @Test
     public void streamOne() {
@@ -20,16 +26,19 @@ public class HighlanderStreamTest {
 
     @Test(expected = RuntimeException.class)
     public void streamTwo() {
-        only(ONE_TWO.stream());
+        only(TWO.stream());
     }
 
     @Test
     public void streamFilter() {
-        assertEquals("ONE", only(ONE_TWO.stream().filter(new Predicate<String>() {
-            @Override
-            public boolean test(String t) {
-                return "ONE".equals(t);
-            }
-        })));
+        assertEquals("ONE", TWO.stream()
+                        .filter(new Predicate<String>() {
+                            @Override
+                            public boolean test(String t) {
+                                return "ONE".equals(t);
+                            }
+                        })
+                        .collect(only())
+        );
     }
 }

@@ -7,8 +7,14 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
 public class HighlanderIterableTest {
+    private static final Iterable<String> NONE = asList();
     private static final Iterable<String> ONE = asList("ONE");
-    private static final Iterable<String> ONE_TWO = asList("ONE", "TWO");
+    private static final Iterable<String> TWO = asList("ONE", "TWO");
+
+    @Test(expected = RuntimeException.class)
+    public void iterableNone() {
+        only(NONE);
+    }
 
     @Test
     public void iterableOne() {
@@ -17,6 +23,6 @@ public class HighlanderIterableTest {
 
     @Test(expected = RuntimeException.class)
     public void iterableTwo() {
-        only(ONE_TWO);
+        only(TWO);
     }
 }
