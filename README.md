@@ -3,13 +3,15 @@ Overview
 
 "There can be only one"
 
-Highlander is a Java micro-library for retrieving the only element from a collection. Supports:
+Highlander is a Java micro-library for safely retrieving the only element from a source that may have zero, one or more elements. Supports:
 
 - Arrays, iterables and streams
 - Both Java 7 and 8
 - Both Guava and Java 8 Optional
 
-Example
+See www.michael-snell.com/2015/03/there-can-be-only-one.html for further detail.
+
+Usage
 =======
 
 See the tests at https://github.com/snellm/highlander/blob/master/src/test/java/com/snell/michael/highlander/ for usage examples.
