@@ -17,7 +17,7 @@ See the tests at https://github.com/snellm/highlander/blob/master/src/test/java/
 Downloading
 ===========
 
-Current version is 0.1 - alpha quality code (API is subject to change).
+Current version is 0.3 - alpha quality code (API is subject to change).
 
 Maven:
 
@@ -25,11 +25,11 @@ Maven:
 <dependency>
   <groupId>com.snell.michael.highlander</groupId>
   <artifactId>highlander</artifactId>
-  <version>0.1</version>
+  <version>0.3</version>
 </dependency>
 ````
 
-Direct download: http://repo1.maven.org/maven2/com/snell/michael/highlander/highlander
+Direct download: http://repo1.maven.org/maven2/com/snell/michael/highlander/highlander/0.3
 
 Fine print
 ==========
