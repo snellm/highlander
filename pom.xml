@@ -9,7 +9,7 @@
     <groupId>com.snell.michael.highlander</groupId>
     <artifactId>highlander</artifactId>
     <packaging>jar</packaging>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.2-SNAPSHOT</version>
     <name>highlander</name>
     <description>There can be only one</description>
     <url>https://github.com/snellm/highlander</url>
