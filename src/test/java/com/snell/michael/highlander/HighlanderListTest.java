@@ -3,6 +3,7 @@ package com.snell.michael.highlander;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 import static com.snell.michael.highlander.Highlander.only;
 import static java.util.Arrays.asList;
@@ -26,5 +27,15 @@ public class HighlanderListTest {
     @Test(expected = RuntimeException.class)
     public void listTwo() {
         only(TWO);
+    }
+
+    @Test
+    public void listFilter() {
+        only(TWO, new Predicate<String>() {
+            @Override
+            public boolean test(String s) {
+                return s.equals("ONE");
+            }
+        });
     }
 }

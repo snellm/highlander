@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
@@ -45,6 +46,10 @@ public class OptionalHighlander {
         }
     }
 
+    public static <T> Optional<T> optionalOnly(Collection<T> collection, Predicate<? super T> predicate) {
+        return optionalOnly(collection.stream().filter(predicate));
+    }
+
     public static <T> Optional<T> optionalOnly(Iterable<T> iterable) {
         return optionalOnly(iterable.iterator());
     }
@@ -65,6 +70,10 @@ public class OptionalHighlander {
     @SuppressWarnings("unchecked")
     public static <T> Optional<T> optionalOnly(Stream<T> stream) {
         return (Optional<T>) stream.collect(optionalOnly());
+    }
+
+    public static <T> Optional<T> only(Stream<T> stream, Predicate<? super T> predicate) {
+        return optionalOnly(stream.filter(predicate));
     }
 
     public static <T> Collector<T, ?, Optional<T>> optionalOnly() {

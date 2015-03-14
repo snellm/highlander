@@ -1,6 +1,7 @@
 package com.snell.michael.highlander;
 
 import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
+import static com.google.common.collect.Collections2.filter;
 import static com.snell.michael.highlander.Messages.EXPECTED_ONE_ELEMENT_BUT_FOUND_;
 import static com.snell.michael.highlander.Messages.EXPECTED_ONE_ELEMENT_BUT_FOUND_MULTIPLE;
 
@@ -44,6 +46,10 @@ public class GuavaOptionalHighlander {
         } else {
             throw new RuntimeException(EXPECTED_ONE_ELEMENT_BUT_FOUND_ + collection.size());
         }
+    }
+
+    public static <T> Optional<T> optionalOnly(Collection<T> collection, Predicate<? super T> predicate) {
+        return optionalOnly(filter(collection, predicate));
     }
 
     public static <T> Optional<T> optionalOnly(Iterable<T> iterable) {

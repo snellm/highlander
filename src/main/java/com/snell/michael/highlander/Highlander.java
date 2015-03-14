@@ -3,6 +3,7 @@ package com.snell.michael.highlander;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
@@ -43,6 +44,10 @@ public class Highlander {
         }
     }
 
+    public static <T> T only(Collection<T> collection, Predicate<? super T> predicate) {
+        return only(collection.stream().filter(predicate));
+    }
+
     public static <T> T only(Iterable<T> iterable) {
         return only(iterable.iterator());
     }
@@ -63,6 +68,10 @@ public class Highlander {
     @SuppressWarnings("unchecked")
     public static <T> T only(Stream<T> stream) {
         return (T) stream.collect(only());
+    }
+
+    public static <T> T only(Stream<T> stream, Predicate<? super T> predicate) {
+        return only(stream.filter(predicate));
     }
 
     public static <T> Collector<T, ?, T> only() {
