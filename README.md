@@ -14,9 +14,22 @@ See www.michael-snell.com/2015/03/there-can-be-only-one.html for the motivation 
 Usage
 =======
 
+- For Java 8: import static com.snell.michael.highlander.Highlander.only
+- For Java 7: import static com.snell.michael.highlander.Java7Highlander.only
+- For Guava Optional support with Java 7: import static com.snell.michael.highlander.GuavaOptionalHighlander.only
+
+Basic usage of "only":
+
 ````java
 List<String> list = asList("ONE", "TWO");
 return only(list); // Will throw an exception as the list contains more than one entry
+````
+
+Basic usage of "optionalOnly":
+
+````java
+List<String> list = new ArrayList<>();
+return optionalOnly(list); // Will return Optional.empty as the list contains no entries
 ````
 
 See the tests at https://github.com/snellm/highlander/blob/master/src/test/java/com/snell/michael/highlander/ for more usage examples.
@@ -36,7 +49,7 @@ Maven:
 </dependency>
 ````
 
-Direct download: http://repo1.maven.org/maven2/com/snell/michael/highlander/highlander/0.3
+Direct download: http://repo1.maven.org/maven2/com/snell/michael/highlander/highlander
 
 Fine print
 ==========
