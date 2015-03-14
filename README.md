@@ -9,12 +9,17 @@ Highlander is a Java micro-library for safely retrieving the only element from a
 - Both Java 7 and 8
 - Both Guava and Java 8 Optional
 
-See www.michael-snell.com/2015/03/there-can-be-only-one.html for further detail.
+See www.michael-snell.com/2015/03/there-can-be-only-one.html for the motivation behind this.
 
 Usage
 =======
 
-See the tests at https://github.com/snellm/highlander/blob/master/src/test/java/com/snell/michael/highlander/ for usage examples.
+````java
+List<String> list = asList("ONE", "TWO");
+return only(list); // Will throw an exception as the list contains more than one entry
+````
+
+See the tests at https://github.com/snellm/highlander/blob/master/src/test/java/com/snell/michael/highlander/ for more usage examples.
 
 Downloading
 ===========
