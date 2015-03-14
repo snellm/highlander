@@ -13,11 +13,11 @@ public class HighlanderArrayTest {
 
     @Test
     public void arrayOne() {
-        assertEquals("ONE", only("ONE"));
+        assertEquals("ONE", only(new String[] {"ONE"}));
     }
 
     @Test(expected = RuntimeException.class)
     public void arrayTwo() {
-        only("ONE", "TWO");
+        only(new String[] {"ONE", "TWO"});
     }
 }

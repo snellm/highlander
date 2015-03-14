@@ -6,11 +6,11 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-import static com.snell.michael.highlander.OptionalHighlander.optionalOnly;
+import static com.snell.michael.highlander.Highlander.optionalOnly;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
-public class OptionalHighlanderStreamTest {
+public class HighlanderOptionalStreamTest {
     private static final Collection<String> NONE = asList();
     private static final Collection<String> ONE = asList("ONE");
     private static final Collection<String> TWO = asList("ONE", "TWO");
@@ -44,6 +44,6 @@ public class OptionalHighlanderStreamTest {
                         return "ONE".equals(t);
                     }
                 })
-                .collect(OptionalHighlander.<String>optionalOnly()));
+                .collect(Highlander.<String>optionalOnly()));
     }
 }
