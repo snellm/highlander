@@ -11,8 +11,14 @@ Highlander is a Java micro-library for safely retrieving the only element from a
 
 See www.michael-snell.com/2015/03/there-can-be-only-one.html for the motivation behind this.
 
+Dependencies
+============
+
+- Works with Java 7 or 8
+- Can work with Guava if present, but not required
+
 Usage
-=======
+=====
 
 - For Java 8: import static com.snell.michael.highlander.Highlander.only
 - For Java 7: import static com.snell.michael.highlander.Java7Highlander.only
@@ -23,13 +29,25 @@ Basic usage of "only":
 ````java
 List<String> list = asList("ONE", "TWO");
 return only(list); // Will throw an exception as the list contains more than one entry
+
+List<String> list = asList();
+return only(list); // Will throw an exception as the list is empty
+
+List<String> list = asList("ONE");
+return only(list); // Will return the only entry
 ````
 
 Basic usage of "optionalOnly":
 
 ````java
-List<String> list = new ArrayList<>();
-return optionalOnly(list); // Will return Optional.empty as the list contains no entries
+List<String> list = asList("ONE", "TWO");
+return optionalOnly(list); // Will throw an exception as the list contains more than one entry
+
+List<String> list = asList();
+return optionalOnly(list); // Will return Optional.empty as the list is empty
+
+List<String> list = asList("ONE");
+return optionalOnly(list); // Will return an Optional containing the only entry
 ````
 
 See the tests at https://github.com/snellm/highlander/blob/master/src/test/java/com/snell/michael/highlander/ for more usage examples.
@@ -49,7 +67,9 @@ Maven:
 </dependency>
 ````
 
-Direct download: http://repo1.maven.org/maven2/com/snell/michael/highlander/highlander
+[Other dependency systems](http://search.maven.org/#artifactdetails%7Ccom.snell.michael.highlander%7Chighlander%7C0.4%7Cjar)
+
+[Direct download](http://repo1.maven.org/maven2/com/snell/michael/highlander/highlander)
 
 Fine print
 ==========
